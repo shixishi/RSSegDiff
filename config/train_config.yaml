@@ -1,0 +1,35 @@
+cond_net:
+  in_channels: 3
+  model_channels: 64
+  out_channels: 7
+  num_res_blocks: 2
+  attention_resolutions: [8]  # 下采样比例, 这个与channel_mult有关
+  dropout: 0
+  channel_mult: [1, 1, 2, 2, 4, 4]
+  
+noise_net:
+  in_channels: 3
+  model_channels: 64
+  out_channels: 3
+  num_res_blocks: 2
+  attention_resolutions: [8] 
+  dropout: 0
+  channel_mult: [1, 1, 2, 2, 4, 4]
+
+ffm:
+  in_c_cn: 256   # 这个与 channel_mult 有关 等于 model_channels * channel_mult[-1]
+  in_c_nn: 256   # 这个与 channel_mult 有关 等于 model_channels * channel_mult[-1]
+  proj_c: 768   # 这个自己定
+  num_heads: 4   # 自己定
+  ffn_mult: 4    # 自己定
+
+training:
+  batch_size: 4
+  lr: 0.00001
+  weight_decay: 0.5
+  data_root_path: /opt/data/private/Dataset/segmentation/LoveDA_512
+  epochs: 30
+  log_interval: 100 
+  save_interval: 10
+  warmup_steps: 500
+  save_dir: ./checkpoints
